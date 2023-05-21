@@ -13,7 +13,7 @@ import openai
 import pandas as pd
 from io import StringIO
 
-openai.api_key = secret_key
+openai.api_key = st.secrets["secret_key"]
 
 model = "gpt-3.5-turbo"
 question = "List all the programming languages you know in a table with name, description and application"
