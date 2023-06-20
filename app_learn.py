@@ -12,7 +12,7 @@ import openai
 st.title("YOUR CHEAT SHEETS GENERATOR")
 
 
-openai.api_key = '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'
+openai.api_key = secret_key
 
 @st.cache
 def generate_table_text(question):
@@ -80,18 +80,25 @@ def main():
         
         # Additional logic
         input_answer = st.text_input('Do you want to see the equivalents in other programming languages')
-        
         if input_answer == 'yes':
             n = int(st.text_input("Enter the value of n: "))
+            answers = []
             for i in range(n):
                 user_input = st.text_input(f"Enter input {i+1}: ")
-                # Process the input and display the answer
-                answer = process_input(user_input)
-                st.write(f"Answer for input {i+1}: {answer}")
-                
-                # Generate cheat sheet with updated answer
-                updated_question = f"Create a cheat sheet for {input_language} and {answer} for {input_app} in a table"
+                if user_input:
+                    answer = process_input(user_input)
+                    answers.append(answer)
+                    st.write(f"Answer for input {i+1}: {answer}")
+                else:
+                    st.write(f"Please enter input {i+1}")
+            
+            if len(answers) == n:
+                # Generate cheat sheet with updated answers
+                answer_text = ', '.join(answers)
+                updated_question = f"Create a cheat sheet for {input_language} and {answer_text} for {input_app} in a table"
                 updated_df = create_dataframe(updated_question)
+                
+                # Display the cheat sheet table
                 st.write(updated_df)
                 
                 # Download button for updated cheat sheet
@@ -101,3 +108,6 @@ def main():
         
 if __name__ == '__main__':
     main()
+    
+    
+    
