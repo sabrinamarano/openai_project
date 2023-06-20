@@ -12,7 +12,7 @@ import openai
 st.title("YOUR CHEAT SHEETS GENERATOR")
 
 
-st.secrets('secret_key')
+openai.api_key = st.secrets('secret_key')
 
 @st.cache
 def generate_table_text(question):
